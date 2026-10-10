@@ -1,0 +1,7 @@
+# Lightweight deps for the test suite. Tests never load the embedding model,
+# so sentence-transformers (and PyTorch) are deliberately left out.
+pytest>=8.0
+requests>=2.31.0
+numpy>=1.26.0
+pyyaml>=6.0.1
+rich>=13.7.0

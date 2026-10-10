@@ -1,0 +1,18 @@
+# Local config with real credentials. Copy config.example.yaml to config.yaml
+config.yaml
+
+# Local data: confidential program reports, embeddings, audit trail
+store/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+.pytest_cache/

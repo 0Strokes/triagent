@@ -1,0 +1,22 @@
+hackerone:
+  api_identifier: "your-token-name"      # the token's NAME, not your HackerOne username
+  api_token: "your-token-secret"
+  program_handle: "your-program-handle"  # the handle in your program's H1 URL
+
+anthropic:
+  # How to reach Claude:
+  #   "cli": shell out to the `claude` CLI and use your Claude Code login
+  #          (Pro/Max). No API key, counts against your subscription limits.
+  #   "api": call the Anthropic API directly, needs api_key below.
+  # Leave it blank and it picks "api" if there's an api_key, "cli" otherwise.
+  backend: "cli"
+  cli_path: "claude"           # path to the claude binary (cli only)
+  api_key: ""                  # api only, or set ANTHROPIC_API_KEY instead
+  model: "claude-sonnet-4-6"
+
+embeddings:
+  model: "all-MiniLM-L6-v2"    # sentence-transformers model, runs locally
+
+classify:
+  similar_reports_count: 15    # how many past reports to send as precedent
+  auto_approve_threshold: 90   # default threshold for --dangerously-auto-approve
