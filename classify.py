@@ -362,7 +362,8 @@ def display_report(
     score = result["fp_score"]
     color = "red" if score >= 70 else "yellow" if score >= 40 else "green"
     console.print(
-        f"[bold {color}]FP SCORE: {score}/100[/]  {fp_label(score)}\n"
+        f"[bold {color}]FP SCORE: {score}/100[/]  {fp_label(score)}\n",
+        highlight=False,  # otherwise rich styles "False" in the label as a Python bool
     )
 
     console.print("[bold]REASONING:[/]")

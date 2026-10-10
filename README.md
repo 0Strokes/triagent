@@ -39,49 +39,7 @@ I wrote about how it works, embeddings and vectors included, on my blog: [Princi
 
 A single report in dry-run mode. The report, reporter and IDs are made up:
 
-```text
-$ python classify.py --dry-run --report-id 1234567
-DRY-RUN mode: no changes will be made on HackerOne.
-
-Loading embedding model all-MiniLM-L6-v2…
-Backend: Claude Code CLI (your subscription), model claude-sonnet-4-6.
-1 report(s) to classify.
-
-──────────────────────────────────────────────────────────────────────────────
-Report #1234567: "Information Disclosure - Health endpoints (/health, /health/info) exposed on app.example.com"
-Reporter: example_hacker (reputation: n/a, signal: n/a)
-Declared severity: none
-──────────────────────────────────────────────────────────────────────────────
-FP SCORE: 87/100  ⚠️  Likely False Positive
-
-REASONING:
-  • The whole PoC uses `curl -I`, which only fetches headers. No response
-    body was ever captured, so nothing was actually shown to be disclosed.
-  • A 200 OK from a health endpoint is expected. Load balancers use them.
-  • The reporter's own Impact section says "no sensitive data is currently
-    exposed".
-  • The closest historical reports (info disclosure, enumeration, directory
-    listing) were all closed as Informative or Not Applicable.
-
-SIMILAR REPORTS:
-  #1111111 → Closed Informative (...)
-  #2222222 → Closed Informative (...)
-  #3333333 → Closed Not Applicable (...)
-
-SUGGESTED COMMENT:
-╭──────────────────────────────────────────────────────────────────────────────╮
-│ Thanks for your submission. The PoC relies on `curl -I`, which only returns  │
-│ headers, and a 200 OK on a health endpoint is intentional: it's there for    │
-│ our load balancers. To be actionable, an information disclosure needs to     │
-│ show sensitive data in the response body, and the report itself says none    │
-│ is exposed. Closing as Informative. If you can show real sensitive content,  │
-│ we're happy to take another look.                                            │
-╰──────────────────────────────────────────────────────────────────────────────╯
-SUGGESTED STATE: Informative
-
-──────────────────────────────────────────────────────────────────────────────
-[a]pprove  [e]dit comment  [s]kip  [d]iscard
-```
+<p align="center"><img src="assets/demo.svg" alt="triagent classifying a report in dry-run mode" width="760"></p>
 
 Because of `--dry-run`, approving here would only print what it *would* do. Nothing happens on HackerOne until you pick an action, and a real approval asks you for the closing state and a second confirmation.
 
@@ -91,7 +49,7 @@ Because of `--dry-run`, approving here would only print what it *would* do. Noth
 
 Three scripts, run in order:
 
-```
+```text
 ingest.py   →  store/reports.db          your closed reports, in SQLite
 index.py    →  store/embeddings.npy       one vector per report
                store/embedding_map.json   row → report id
@@ -132,7 +90,7 @@ This is the part that trips people up.
 
 **Personal vs. program token.** A personal token, the one in your user settings, only works on the Hacker API (`/v1/hackers/...`) and gets a 401 on `/v1/reports`. triagent needs a **program** token, created by a team member in:
 
-```
+```text
 https://hackerone.com/<your-program>/settings/api_token
 ```
 
@@ -268,12 +226,7 @@ The name is on purpose. It shows a 5 second warning you can cancel, and then clo
 - Before each close there's a 10 second countdown. `Ctrl+C` during it cancels just that report and the run continues. Change it with `--auto-delay N`, or `0` to turn it off.
 - At the end you get a summary with the IDs that were skipped.
 
-```
-[AUTO] Report #12345678 | FP Score: 94 | Closed as Not Applicable
-[MANUAL] Report #12345680 | FP Score: 78 | skipped (below threshold)
-
-Summary: Auto-closed: 23 · Skipped for manual review: 18
-```
+<p align="center"><img src="assets/auto-approve.svg" alt="an unattended auto-approve run" width="760"></p>
 
 Run it with `--dry-run` first to see exactly what it would close. And read [Security model](#security-model) before you use it for real: auto-approve is the one mode where a successful prompt injection turns into an action.
 
