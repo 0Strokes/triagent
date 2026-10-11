@@ -1,4 +1,4 @@
-# triagent
+# TriAgent
 
 A small Python CLI that helps triage HackerOne reports. It reads every report your program has already closed, and for each new one it estimates how likely it is to be a false positive, drafts a comment, and suggests a closing state. You approve, edit, skip or discard it with one key.
 
