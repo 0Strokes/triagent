@@ -2,7 +2,7 @@
 
 A small Python CLI that helps triage HackerOne reports. It reads every report your program has already closed, and for each new one it estimates how likely it is to be a false positive, drafts a comment, and suggests a closing state. You approve, edit, skip or discard it with one key.
 
-I built it because AI made bug bounty reports cheap to write. They all look polished now, so the old "this one is badly written, probably nothing" filter stopped working and every report needs a real read. triagent doesn't make the call for you. It does the part humans are slow at: remembering every report you've ever closed, finding the ones that look like the new one, and showing you how you handled them.
+I built it because AI made bug bounty reports cheap to write. They all look polished now, so the old "this one is badly written, probably nothing" filter stopped working and every report needs a real read. TRIAGEnt doesn't make the call for you. It does the part humans are slow at: remembering every report you've ever closed, finding the ones that look like the new one, and showing you how you handled them.
 
 I wrote about how it works, embeddings and vectors included, on my blog: [Principal of Least Privilege](https://0strokes.github.io/).
 
@@ -39,7 +39,7 @@ I wrote about how it works, embeddings and vectors included, on my blog: [Princi
 
 A single report in dry-run mode. The report, reporter and IDs are made up:
 
-<p align="center"><img src="assets/demo.svg" alt="triagent classifying a report in dry-run mode" width="760"></p>
+<p align="center"><img src="assets/demo.svg" alt="TRIAGEnt classifying a report in dry-run mode" width="760"></p>
 
 Because of `--dry-run`, approving here would only print what it *would* do. Nothing happens on HackerOne until you pick an action, and a real approval asks you for the closing state and a second confirmation.
 
@@ -88,7 +88,7 @@ This is the part that trips people up.
 
 **Identifier vs. token.** HackerOne uses HTTP Basic auth. `api_identifier` is the token's *name* (the username), `api_token` is the secret (the password). The identifier is not your HackerOne username.
 
-**Personal vs. program token.** A personal token, the one in your user settings, only works on the Hacker API (`/v1/hackers/...`) and gets a 401 on `/v1/reports`. triagent needs a **program** token, created by a team member in:
+**Personal vs. program token.** A personal token, the one in your user settings, only works on the Hacker API (`/v1/hackers/...`) and gets a 401 on `/v1/reports`. TRIAGEnt needs a **program** token, created by a team member in:
 
 ```text
 https://hackerone.com/<your-program>/settings/api_token
